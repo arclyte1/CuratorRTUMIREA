@@ -3,4 +3,8 @@
     <string name="signing_in">Signing in</string>
     <string name="prompt_email">Email</string>
     <string name="action_sign_in">Sign in</string>
+    <string name="email_confirmation">Email confirmation</string>
+    <string name="enter_email_code">Enter email code</string>
+    <string name="confirmation_email_sent">A confirmation email has been sent to</string>
+    <string name="resend_email">Resend email</string>
 </resources>

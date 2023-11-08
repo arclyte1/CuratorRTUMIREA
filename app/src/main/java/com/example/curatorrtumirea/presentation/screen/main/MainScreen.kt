@@ -16,6 +16,8 @@ import com.example.curatorrtumirea.presentation.navigation.Destination
 import com.example.curatorrtumirea.presentation.navigation.NavHost
 import com.example.curatorrtumirea.presentation.navigation.NavigationIntent
 import com.example.curatorrtumirea.presentation.navigation.composable
+import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationScreen
+import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationViewModel
 import com.example.curatorrtumirea.presentation.screen.login.LoginScreen
 import com.example.curatorrtumirea.presentation.screen.login.LoginViewModel
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
@@ -43,6 +45,14 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                     val viewModel = hiltViewModel<LoginViewModel>()
                     val state by viewModel.screenState.collectAsState()
                     LoginScreen(
+                        screenState = state,
+                        onEvent = viewModel::onEvent
+                    )
+                }
+                composable(destination = Destination.EmailConfirmationScreen) {
+                    val viewModel = hiltViewModel<EmailConfirmationViewModel>()
+                    val state by viewModel.screenState.collectAsState()
+                    EmailConfirmationScreen(
                         screenState = state,
                         onEvent = viewModel::onEvent
                     )

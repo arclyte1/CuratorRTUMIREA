@@ -1,6 +1,10 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">CuratorRTUMIREA</string>
     <string name="signing_in">Вход</string>
     <string name="prompt_email">Эл. почта</string>
     <string name="action_sign_in">Войти</string>
+    <string name="email_confirmation">Подтверждение почты</string>
+    <string name="enter_email_code">Введите код с почты</string>
+    <string name="confirmation_email_sent">На почту был отправлен код подтверждения</string>
+    <string name="resend_email">Отправить повторно</string>
 </resources>

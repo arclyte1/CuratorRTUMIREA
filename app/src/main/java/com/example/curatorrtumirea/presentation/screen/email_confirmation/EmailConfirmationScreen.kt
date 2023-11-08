@@ -1,0 +1,116 @@
+package com.example.curatorrtumirea.presentation.screen.email_confirmation
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import com.example.curatorrtumirea.R
+import com.example.curatorrtumirea.presentation.screen.email_confirmation.components.ConfirmationCodeTextField
+import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EmailConfirmationScreen(
+    screenState: EmailConfirmationState,
+    onEvent: (EmailConfirmationUIEvent) -> Unit,
+) {
+    if (screenState.isLoading) {
+        Dialog(onDismissRequest = { }) {
+            CircularProgressIndicator()
+        }
+    }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = stringResource(id = R.string.email_confirmation)) },
+                navigationIcon = {
+                    IconButton(onClick = { onEvent(EmailConfirmationUIEvent.NavigateBack) }) {
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowLeft,
+                            contentDescription = "Navigate back"
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(vertical = paddingValues.calculateTopPadding()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ConfirmationCodeTextField(
+                value = screenState.code,
+                onValueChange = { code, isInputFinished ->
+                    onEvent(EmailConfirmationUIEvent.OnCodeChanged(code, isInputFinished))
+                },
+                fontSize = 40.sp
+            )
+            Text(
+                text = stringResource(id = R.string.confirmation_email_sent),
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                textAlign = TextAlign.Center
+            )
+            Box(modifier = Modifier.padding(top = 8.dp)) {
+                OutlinedButton(
+                    onClick = { onEvent(EmailConfirmationUIEvent.ResendEmail) },
+                    border = BorderStroke(0.dp, color = Color.Transparent)
+                ) {
+                    val cooldownText = if (screenState.resendEmailCooldown > 0) " (${screenState.resendEmailCooldown})" else ""
+                    Text(
+                        text = stringResource(id = R.string.resend_email) + cooldownText
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+@Preview
+fun EmailConfirmationScreenPreview() {
+    var screenState by remember { mutableStateOf(EmailConfirmationState()) }
+    CuratorRTUMIREATheme {
+        EmailConfirmationScreen(
+            screenState = screenState,
+            onEvent = { event ->
+                when(event) {
+                    is EmailConfirmationUIEvent.OnCodeChanged -> {
+                        screenState = screenState.copy(
+                            code = event.code.filter { it.isDigit() }
+                        )
+                    }
+                    else -> { }
+                }
+            }
+        )
+    }
+}

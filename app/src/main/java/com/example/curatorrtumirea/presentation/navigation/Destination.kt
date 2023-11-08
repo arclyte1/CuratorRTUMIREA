@@ -15,7 +15,15 @@ sealed class Destination(
         operator fun invoke(): String = route
     }
 
-    object LoginScreen : NoArgumentsDestination("login")
+    data object LoginScreen : NoArgumentsDestination("login")
+
+    data object EmailConfirmationScreen : Destination("email_confirmation", "email") {
+        const val EMAIL_KEY = "email"
+
+        operator fun invoke(email: String): String = route.appendParams(
+            EMAIL_KEY to email
+        )
+    }
 }
 
 internal fun String.appendParams(vararg params: Pair<String, Any?>): String {
