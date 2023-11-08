@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.curatorrtumirea.common.Resource
 import com.example.curatorrtumirea.domain.usecase.SendEmailConfirmationCodeUseCase
+import com.example.curatorrtumirea.presentation.navigation.AppNavigator
+import com.example.curatorrtumirea.presentation.navigation.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private val appNavigator: AppNavigator,
     private val sendEmailConfirmationCodeUseCase: SendEmailConfirmationCodeUseCase
 ) : ViewModel() {
 
@@ -68,7 +71,7 @@ class LoginViewModel @Inject constructor(
                             isSignInButtonEnabled = true
                         )
                     }
-                    TODO("navigate to next screen")
+                    appNavigator.tryNavigateTo(Destination.EmailConfirmationScreen(email))
                 }
             }
         }.launchIn(viewModelScope)
