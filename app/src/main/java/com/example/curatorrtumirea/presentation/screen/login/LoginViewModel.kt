@@ -4,7 +4,7 @@ import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.curatorrtumirea.common.Resource
-import com.example.curatorrtumirea.domain.usecase.SendEmailVerificationCodeUseCase
+import com.example.curatorrtumirea.domain.usecase.SendEmailConfirmationCodeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val sendEmailVerificationCodeUseCase: SendEmailVerificationCodeUseCase
+    private val sendEmailConfirmationCodeUseCase: SendEmailConfirmationCodeUseCase
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(LoginScreenState())
@@ -39,7 +39,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun signIn(email: String) {
-        sendEmailVerificationCodeUseCase(email).onEach { resource ->
+        sendEmailConfirmationCodeUseCase(email).onEach { resource ->
             when(resource) {
                 is Resource.Error -> {
                     _screenState.update {
