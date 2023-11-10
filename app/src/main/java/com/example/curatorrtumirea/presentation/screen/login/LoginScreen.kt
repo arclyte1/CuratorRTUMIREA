@@ -34,7 +34,7 @@ import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 @Composable
 fun LoginScreen(
     screenState: LoginScreenState,
-    onEvent: (LoginUIEvent) -> Unit,
+    onEvent: (LoginUiEvent) -> Unit,
 ) {
     val animationColors = listOf(
         MaterialTheme.colorScheme.primary,
@@ -56,7 +56,7 @@ fun LoginScreen(
             }
             BaseTextField(
                 value = screenState.email,
-                onValueChange = { onEvent(LoginUIEvent.OnEmailChanged(it)) },
+                onValueChange = { onEvent(LoginUiEvent.OnEmailChanged(it)) },
                 label = stringResource(id = R.string.prompt_email),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,14 +65,14 @@ fun LoginScreen(
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 keyboardActions = KeyboardActions(onDone = {
-                    if (screenState.isSignInButtonEnabled) onEvent(LoginUIEvent.SignIn)
+                    if (screenState.isSignInButtonEnabled) onEvent(LoginUiEvent.SignIn)
                 })
             )
         }
         if (!(isImeVisible && LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)) {
             Column(verticalArrangement = Arrangement.Bottom) {
                 Button(
-                    onClick = { onEvent(LoginUIEvent.SignIn) },
+                    onClick = { onEvent(LoginUiEvent.SignIn) },
                     enabled = screenState.isSignInButtonEnabled,
                     modifier = Modifier
                         .fillMaxWidth()

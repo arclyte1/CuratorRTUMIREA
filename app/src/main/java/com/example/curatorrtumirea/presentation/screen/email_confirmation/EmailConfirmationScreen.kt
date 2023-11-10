@@ -3,7 +3,6 @@ package com.example.curatorrtumirea.presentation.screen.email_confirmation
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -41,7 +40,7 @@ import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 @Composable
 fun EmailConfirmationScreen(
     screenState: EmailConfirmationScreenState,
-    onEvent: (EmailConfirmationUIEvent) -> Unit,
+    onEvent: (EmailConfirmationUiEvent) -> Unit,
 ) {
     val isImeVisible by isImeVisibleAsState()
 
@@ -56,7 +55,7 @@ fun EmailConfirmationScreen(
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.email_confirmation)) },
                 navigationIcon = {
-                    IconButton(onClick = { onEvent(EmailConfirmationUIEvent.NavigateBack) }) {
+                    IconButton(onClick = { onEvent(EmailConfirmationUiEvent.NavigateBack) }) {
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowLeft,
                             contentDescription = "Navigate back"
@@ -76,7 +75,7 @@ fun EmailConfirmationScreen(
             ConfirmationCodeTextField(
                 value = screenState.code,
                 onValueChange = { code ->
-                    onEvent(EmailConfirmationUIEvent.OnCodeChanged(code))
+                    onEvent(EmailConfirmationUiEvent.OnCodeChanged(code))
                 },
                 fontSize = 40.sp,
                 charCount = EmailConfirmationViewModel.CONFIRMATION_CODE_LENGTH
@@ -88,7 +87,7 @@ fun EmailConfirmationScreen(
                     textAlign = TextAlign.Center
                 )
                 OutlinedButton(
-                    onClick = { onEvent(EmailConfirmationUIEvent.ResendEmail) },
+                    onClick = { onEvent(EmailConfirmationUiEvent.ResendEmail) },
                     border = BorderStroke(0.dp, color = Color.Transparent),
                     modifier = Modifier.padding(top = 8.dp)
                 ) {
@@ -109,7 +108,7 @@ fun EmailConfirmationScreenPreview() {
             screenState = screenState,
             onEvent = { event ->
                 when(event) {
-                    is EmailConfirmationUIEvent.OnCodeChanged -> {
+                    is EmailConfirmationUiEvent.OnCodeChanged -> {
                         screenState = screenState.copy(
                             code = event.code.filter { it.isDigit() }
                         )

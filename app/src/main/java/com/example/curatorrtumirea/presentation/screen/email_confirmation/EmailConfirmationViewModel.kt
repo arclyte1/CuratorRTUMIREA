@@ -37,12 +37,12 @@ class EmailConfirmationViewModel @Inject constructor(
         resetResendEmailCooldown()
     }
 
-    fun onEvent(event: EmailConfirmationUIEvent) {
+    fun onEvent(event: EmailConfirmationUiEvent) {
         when(event) {
-            EmailConfirmationUIEvent.NavigateBack -> {
+            EmailConfirmationUiEvent.NavigateBack -> {
                 appNavigator.tryNavigateBack()
             }
-            is EmailConfirmationUIEvent.OnCodeChanged -> {
+            is EmailConfirmationUiEvent.OnCodeChanged -> {
                 _screenState.update { state ->
                     state.copy(
                         code = event.code.filter { it.isDigit() }
@@ -52,7 +52,7 @@ class EmailConfirmationViewModel @Inject constructor(
                     confirmEmail(_screenState.value.code)
                 }
             }
-            EmailConfirmationUIEvent.ResendEmail -> {
+            EmailConfirmationUiEvent.ResendEmail -> {
                 if (_screenState.value.resendEmailCooldown == 0) {
                     resendEmail()
                 }
