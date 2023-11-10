@@ -4,6 +4,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -33,6 +35,9 @@ fun BaseTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     readOnly: Boolean = false,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    singleLine: Boolean = false
 ) {
     TextField(
         value = value,
@@ -47,12 +52,14 @@ fun BaseTextField(
             errorIndicatorColor = Color.Transparent,
         ),
         shape = RoundedCornerShape(15.dp),
-        singleLine = true,
+        singleLine = singleLine,
         supportingText = { Text(errorMessage, color = Color(0xffb3261e)) },
         isError = isError,
         visualTransformation = visualTransformation,
         interactionSource = interactionSource,
-        readOnly = readOnly
+        readOnly = readOnly,
+        keyboardActions = keyboardActions,
+        keyboardOptions = keyboardOptions
     )
 }
 
