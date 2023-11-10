@@ -37,7 +37,7 @@ import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailConfirmationScreen(
-    screenState: EmailConfirmationState,
+    screenState: EmailConfirmationScreenState,
     onEvent: (EmailConfirmationUIEvent) -> Unit,
 ) {
     if (screenState.isLoading) {
@@ -69,10 +69,11 @@ fun EmailConfirmationScreen(
         ) {
             ConfirmationCodeTextField(
                 value = screenState.code,
-                onValueChange = { code, isInputFinished ->
-                    onEvent(EmailConfirmationUIEvent.OnCodeChanged(code, isInputFinished))
+                onValueChange = { code ->
+                    onEvent(EmailConfirmationUIEvent.OnCodeChanged(code))
                 },
-                fontSize = 40.sp
+                fontSize = 40.sp,
+                charCount = EmailConfirmationViewModel.CONFIRMATION_CODE_LENGTH
             )
             Text(
                 text = stringResource(id = R.string.confirmation_email_sent),
@@ -97,7 +98,7 @@ fun EmailConfirmationScreen(
 @Composable
 @Preview
 fun EmailConfirmationScreenPreview() {
-    var screenState by remember { mutableStateOf(EmailConfirmationState()) }
+    var screenState by remember { mutableStateOf(EmailConfirmationScreenState()) }
     CuratorRTUMIREATheme {
         EmailConfirmationScreen(
             screenState = screenState,

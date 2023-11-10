@@ -33,7 +33,7 @@ import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 @Composable
 fun ConfirmationCodeTextField(
     value: String,
-    onValueChange: (String, Boolean) -> Unit,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     readOnly: Boolean = false,
     charCount: Int = 4,
@@ -44,7 +44,7 @@ fun ConfirmationCodeTextField(
         value = TextFieldValue(value, selection = TextRange(value.length)),
         onValueChange = {
             if (it.text.length <= charCount) {
-                onValueChange(it.text, it.text.length == charCount)
+                onValueChange(it.text)
             }
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
@@ -95,7 +95,7 @@ fun ConfirmationCodeTextFieldPreview() {
     CuratorRTUMIREATheme {
         ConfirmationCodeTextField(
             value = code,
-            onValueChange = { it, _ ->  code = it },
+            onValueChange = { code = it },
             modifier = Modifier.fillMaxWidth(),
             charCount = 4,
             fontSize = 40.sp

@@ -30,8 +30,8 @@ class EmailConfirmationViewModel @Inject constructor(
     private val email = checkNotNull(savedStateHandle.get<String>(Destination.EmailConfirmationScreen.EMAIL_KEY))
     private var resendEmailCooldownJob: Job? = null
 
-    private val _screenState = MutableStateFlow(EmailConfirmationState())
-    val screenState: StateFlow<EmailConfirmationState> = _screenState
+    private val _screenState = MutableStateFlow(EmailConfirmationScreenState())
+    val screenState: StateFlow<EmailConfirmationScreenState> = _screenState
 
     init {
         resetResendEmailCooldown()
@@ -43,13 +43,13 @@ class EmailConfirmationViewModel @Inject constructor(
                 appNavigator.tryNavigateBack()
             }
             is EmailConfirmationUIEvent.OnCodeChanged -> {
-                _screenState.update {
-                    it.copy(
-                        code = event.code
+                _screenState.update { state ->
+                    state.copy(
+                        code = event.code.filter { it.isDigit() }
                     )
                 }
-                if (event.isInputFinished) {
-                    confirmEmail(event.code)
+                if (_screenState.value.code.length == CONFIRMATION_CODE_LENGTH) {
+                    confirmEmail(_screenState.value.code)
                 }
             }
             EmailConfirmationUIEvent.ResendEmail -> {
@@ -151,5 +151,6 @@ class EmailConfirmationViewModel @Inject constructor(
 
     companion object {
         const val INITIAL_RESEND_EMAIL_COOLDOWN = 30
+        const val CONFIRMATION_CODE_LENGTH = 4
     }
 }
