@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.curatorrtumirea.presentation.navigation.Destination
 import com.example.curatorrtumirea.presentation.navigation.NavHost
 import com.example.curatorrtumirea.presentation.navigation.NavigationIntent
-import com.example.curatorrtumirea.presentation.navigation.composable
+import com.example.curatorrtumirea.presentation.navigation.viewModelComposable
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationScreen
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationViewModel
 import com.example.curatorrtumirea.presentation.screen.login.LoginScreen
@@ -41,16 +41,18 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                 navController = navController,
                 startDestination = Destination.LoginScreen
             ) {
-                composable(destination = Destination.LoginScreen) {
-                    val viewModel = hiltViewModel<LoginViewModel>()
+                viewModelComposable<LoginViewModel>(
+                    destination = Destination.LoginScreen
+                ) { _, viewModel ->
                     val state by viewModel.screenState.collectAsState()
                     LoginScreen(
                         screenState = state,
                         onEvent = viewModel::onEvent
                     )
                 }
-                composable(destination = Destination.EmailConfirmationScreen) {
-                    val viewModel = hiltViewModel<EmailConfirmationViewModel>()
+                viewModelComposable<EmailConfirmationViewModel>(
+                    destination = Destination.EmailConfirmationScreen
+                ) { _, viewModel ->
                     val state by viewModel.screenState.collectAsState()
                     EmailConfirmationScreen(
                         screenState = state,
