@@ -1,5 +1,6 @@
 package com.example.curatorrtumirea.presentation.screen.login
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.curatorrtumirea.R
 import com.example.curatorrtumirea.common.conditional
 import com.example.curatorrtumirea.common.drawAnimatedBorder
+import com.example.curatorrtumirea.common.isImeVisibleAsState
 import com.example.curatorrtumirea.presentation.shared.textfield.BaseTextField
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 
@@ -35,15 +39,18 @@ fun LoginScreen(
         MaterialTheme.colorScheme.onPrimary,
         MaterialTheme.colorScheme.primary,
     )
+    val isImeVisible by isImeVisibleAsState()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Column(verticalArrangement = Arrangement.Center, modifier = Modifier.weight(1f)) {
-            Text(
-                text = stringResource(id = R.string.signing_in),
-                fontSize = 32.sp,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-            )
+            if (!(isImeVisible && LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)) {
+                Text(
+                    text = stringResource(id = R.string.signing_in),
+                    fontSize = 32.sp,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                )
+            }
             BaseTextField(
                 value = screenState.email,
                 onValueChange = { onEvent(LoginUIEvent.OnEmailChanged(it)) },
@@ -54,25 +61,27 @@ fun LoginScreen(
                 readOnly = screenState.isEmailReadOnly
             )
         }
-        Column(verticalArrangement = Arrangement.Bottom) {
-            Button(
-                onClick = { onEvent(LoginUIEvent.SignIn) },
-                enabled = screenState.isSignInButtonEnabled,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .conditional(screenState.isSigningIn) {
-                        drawAnimatedBorder(
-                            2.dp,
-                            CircleShape,
-                            { Brush.sweepGradient(animationColors) },
-                            2000
-                        )
-                    }
-            ) {
-                Text(
-                    text = stringResource(id = R.string.action_sign_in)
-                )
+        if (!(isImeVisible && LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)) {
+            Column(verticalArrangement = Arrangement.Bottom) {
+                Button(
+                    onClick = { onEvent(LoginUIEvent.SignIn) },
+                    enabled = screenState.isSignInButtonEnabled,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .conditional(screenState.isSigningIn) {
+                            drawAnimatedBorder(
+                                2.dp,
+                                CircleShape,
+                                { Brush.sweepGradient(animationColors) },
+                                2000
+                            )
+                        }
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.action_sign_in)
+                    )
+                }
             }
         }
     }
