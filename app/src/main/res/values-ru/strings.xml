@@ -7,4 +7,8 @@
     <string name="enter_email_code">Введите код с почты</string>
     <string name="confirmation_email_sent">На почту был отправлен код подтверждения</string>
     <string name="resend_email">Отправить повторно</string>
+    <string name="event_list">Мероприятия</string>
+    <string name="face_to_face_event_type">Очная встреча</string>
+    <string name="offsite_event_type">Выездное мероприятие</string>
+    <string name="career_guidance_event_type">Профориентационное</string>
 </resources>
