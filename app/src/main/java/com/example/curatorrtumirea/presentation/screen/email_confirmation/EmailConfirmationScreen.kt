@@ -1,5 +1,6 @@
 package com.example.curatorrtumirea.presentation.screen.email_confirmation
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.curatorrtumirea.R
+import com.example.curatorrtumirea.common.isImeVisibleAsState
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.components.ConfirmationCodeTextField
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 
@@ -40,11 +43,14 @@ fun EmailConfirmationScreen(
     screenState: EmailConfirmationScreenState,
     onEvent: (EmailConfirmationUIEvent) -> Unit,
 ) {
+    val isImeVisible by isImeVisibleAsState()
+
     if (screenState.isLoading) {
         Dialog(onDismissRequest = { }) {
             CircularProgressIndicator()
         }
     }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -64,7 +70,7 @@ fun EmailConfirmationScreen(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = paddingValues.calculateTopPadding()),
+                .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ConfirmationCodeTextField(
@@ -75,20 +81,19 @@ fun EmailConfirmationScreen(
                 fontSize = 40.sp,
                 charCount = EmailConfirmationViewModel.CONFIRMATION_CODE_LENGTH
             )
-            Text(
-                text = stringResource(id = R.string.confirmation_email_sent),
-                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                textAlign = TextAlign.Center
-            )
-            Box(modifier = Modifier.padding(top = 8.dp)) {
+            if (!(isImeVisible && LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)) {
+                Text(
+                    text = stringResource(id = R.string.confirmation_email_sent),
+                    modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                    textAlign = TextAlign.Center
+                )
                 OutlinedButton(
                     onClick = { onEvent(EmailConfirmationUIEvent.ResendEmail) },
-                    border = BorderStroke(0.dp, color = Color.Transparent)
+                    border = BorderStroke(0.dp, color = Color.Transparent),
+                    modifier = Modifier.padding(top = 8.dp)
                 ) {
                     val cooldownText = if (screenState.resendEmailCooldown > 0) " (${screenState.resendEmailCooldown})" else ""
-                    Text(
-                        text = stringResource(id = R.string.resend_email) + cooldownText
-                    )
+                    Text(text = stringResource(id = R.string.resend_email) + cooldownText)
                 }
             }
         }
