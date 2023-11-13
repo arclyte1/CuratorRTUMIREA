@@ -24,6 +24,8 @@ sealed class Destination(
             EMAIL_KEY to email
         )
     }
+
+    data object EventListScreen : NoArgumentsDestination("event_list")
 }
 
 internal fun String.appendParams(vararg params: Pair<String, Any?>): String {
