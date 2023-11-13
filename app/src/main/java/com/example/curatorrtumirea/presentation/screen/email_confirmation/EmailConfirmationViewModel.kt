@@ -135,7 +135,11 @@ class EmailConfirmationViewModel @Inject constructor(
                         )
                     }
                     if (resource.data) {
-                        TODO("navigate to next screen")
+                        appNavigator.tryNavigateTo(
+                            route = Destination.EventListScreen(),
+                            popUpToRoute = Destination.LoginScreen(),
+                            inclusive = true
+                        )
                     } else {
                         _screenState.update {
                             it.copy(
