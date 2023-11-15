@@ -25,7 +25,15 @@ class EventListViewModel @Inject constructor(
     }
 
     fun onEvent(uiEvent: EventListUiEvent) {
-
+        when(uiEvent) {
+            is EventListUiEvent.OnEventClicked -> {
+                TODO("Navigate to event details screen")
+            }
+            EventListUiEvent.RefreshList -> {
+                if (!_screenState.value.isListLoading)
+                    getEventList()
+            }
+        }
     }
 
     private fun getEventList() {

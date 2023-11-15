@@ -11,4 +11,5 @@
     <string name="face_to_face_event_type">Face-to-face</string>
     <string name="offsite_event_type">Offsite event</string>
     <string name="career_guidance_event_type">Career guidance</string>
+    <string name="event_list_empty">No events</string>
 </resources>

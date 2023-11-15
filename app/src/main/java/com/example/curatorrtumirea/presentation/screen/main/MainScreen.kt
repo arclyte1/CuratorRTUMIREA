@@ -41,7 +41,7 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = Destination.LoginScreen
+                startDestination = Destination.EventListScreen
             ) {
                 viewModelComposable<LoginViewModel>(
                     destination = Destination.LoginScreen

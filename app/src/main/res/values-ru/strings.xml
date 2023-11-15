@@ -11,4 +11,5 @@
     <string name="face_to_face_event_type">Очная встреча</string>
     <string name="offsite_event_type">Выездное мероприятие</string>
     <string name="career_guidance_event_type">Профориентационное</string>
+    <string name="event_list_empty">Нет мероприятий</string>
 </resources>

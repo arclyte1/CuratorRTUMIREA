@@ -9,6 +9,7 @@ hilt = "2.48"
 hilt-compiler = "1.1.0"
 navigation-compose = "2.7.5"
 hilt-navigation-compose = "1.1.0"
+pull-refresh = "1.0.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -25,6 +26,7 @@ hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-comp
 hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-compiler" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+pull-refresh = { group = "eu.bambooapps", name = "compose-material3-pullrefresh", version.ref = "pull-refresh" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
