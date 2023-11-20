@@ -13,4 +13,5 @@ sealed class EventListEffect {
 
 sealed class EventListEvent {
     data class OnEventClicked(val eventId: Long) : EventListEvent()
+    data object RefreshList : EventListEvent()
 }

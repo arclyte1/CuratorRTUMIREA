@@ -46,7 +46,7 @@ fun EventListScreen(
 ) {
     val pullRefreshState = rememberPullRefreshState(
         refreshing = screenState.isListLoading,
-        onRefresh = { onEvent(EventListUiEvent.RefreshList) }
+        onRefresh = { onEvent(EventListEvent.RefreshList) }
     )
 
     Scaffold(
@@ -77,7 +77,7 @@ fun EventListScreen(
                             .fillMaxWidth()
                             .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                             .clickable {
-                                onEvent(EventListUiEvent.OnEventClicked(event.id))
+                                onEvent(EventListEvent.OnEventClicked(event.id))
                             }
                     )
                 }
