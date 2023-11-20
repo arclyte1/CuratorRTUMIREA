@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -32,12 +34,15 @@ import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 import eu.bambooapps.material3.pullrefresh.PullRefreshIndicator
 import eu.bambooapps.material3.pullrefresh.pullRefresh
 import eu.bambooapps.material3.pullrefresh.rememberPullRefreshState
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventListScreen(
     screenState: EventListScreenState,
-    onEvent: (EventListUiEvent) -> Unit
+    effect: SharedFlow<EventListEffect>,
+    onEvent: (EventListEvent) -> Unit
 ) {
     val pullRefreshState = rememberPullRefreshState(
         refreshing = screenState.isListLoading,
@@ -93,6 +98,7 @@ fun EventListScreenPreview() {
     CuratorRTUMIREATheme {
         EventListScreen(
             screenState = screenState,
+            effect = MutableSharedFlow(),
             onEvent = {}
         )
     }

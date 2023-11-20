@@ -35,12 +35,15 @@ import com.example.curatorrtumirea.R
 import com.example.curatorrtumirea.common.isImeVisibleAsState
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.components.ConfirmationCodeTextField
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailConfirmationScreen(
     screenState: EmailConfirmationScreenState,
-    onEvent: (EmailConfirmationUiEvent) -> Unit,
+    effect: SharedFlow<EmailConfirmationEffect>,
+    onEvent: (EmailConfirmationEvent) -> Unit,
 ) {
     val isImeVisible by isImeVisibleAsState()
 
@@ -55,7 +58,7 @@ fun EmailConfirmationScreen(
             TopAppBar(
                 title = { Text(text = stringResource(id = R.string.email_confirmation)) },
                 navigationIcon = {
-                    IconButton(onClick = { onEvent(EmailConfirmationUiEvent.NavigateBack) }) {
+                    IconButton(onClick = { onEvent(EmailConfirmationEvent.NavigateBack) }) {
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowLeft,
                             contentDescription = "Navigate back"
@@ -75,7 +78,7 @@ fun EmailConfirmationScreen(
             ConfirmationCodeTextField(
                 value = screenState.code,
                 onValueChange = { code ->
-                    onEvent(EmailConfirmationUiEvent.OnCodeChanged(code))
+                    onEvent(EmailConfirmationEvent.OnCodeChanged(code))
                 },
                 fontSize = 40.sp,
                 charCount = EmailConfirmationViewModel.CONFIRMATION_CODE_LENGTH
@@ -87,7 +90,7 @@ fun EmailConfirmationScreen(
                     textAlign = TextAlign.Center
                 )
                 OutlinedButton(
-                    onClick = { onEvent(EmailConfirmationUiEvent.ResendEmail) },
+                    onClick = { onEvent(EmailConfirmationEvent.ResendEmail) },
                     border = BorderStroke(0.dp, color = Color.Transparent),
                     modifier = Modifier.padding(top = 8.dp)
                 ) {
@@ -106,9 +109,10 @@ fun EmailConfirmationScreenPreview() {
     CuratorRTUMIREATheme {
         EmailConfirmationScreen(
             screenState = screenState,
+            effect = MutableSharedFlow(),
             onEvent = { event ->
                 when(event) {
-                    is EmailConfirmationUiEvent.OnCodeChanged -> {
+                    is EmailConfirmationEvent.OnCodeChanged -> {
                         screenState = screenState.copy(
                             code = event.code.filter { it.isDigit() }
                         )

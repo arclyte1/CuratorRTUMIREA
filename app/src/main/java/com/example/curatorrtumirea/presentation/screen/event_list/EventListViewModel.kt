@@ -1,24 +1,18 @@
 package com.example.curatorrtumirea.presentation.screen.event_list
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.curatorrtumirea.common.Resource
 import com.example.curatorrtumirea.domain.usecase.GetEventListUseCase
+import com.example.curatorrtumirea.presentation.shared.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class EventListViewModel @Inject constructor(
     private val getEventListUseCase: GetEventListUseCase,
-) : ViewModel() {
-
-    private val _screenState = MutableStateFlow(EventListScreenState())
-    val screenState: StateFlow<EventListScreenState> = _screenState
+) : BaseViewModel<EventListScreenState, EventListEffect, EventListEvent>(EventListScreenState()) {
 
     init {
         getEventList()
@@ -30,7 +24,7 @@ class EventListViewModel @Inject constructor(
                 TODO("Navigate to event details screen")
             }
             EventListUiEvent.RefreshList -> {
-                if (!_screenState.value.isListLoading)
+                if (!state.value.isListLoading)
                     getEventList()
             }
         }
@@ -40,27 +34,21 @@ class EventListViewModel @Inject constructor(
         getEventListUseCase().onEach { resource ->
             when(resource) {
                 is Resource.Error -> {
-                    _screenState.update {
-                        it.copy(
-                            isListLoading = false
-                        )
-                    }
+                    setState(state.value.copy(
+                        isListLoading = false
+                    ))
                     TODO("make one time event handling")
                 }
                 Resource.Loading -> {
-                    _screenState.update {
-                        it.copy(
-                            isListLoading = true
-                        )
-                    }
+                    setState(state.value.copy(
+                        isListLoading = true
+                    ))
                 }
                 is Resource.Success -> {
-                    _screenState.update {
-                        it.copy(
-                            isListLoading = false,
-                            events = resource.data
-                        )
-                    }
+                    setState(state.value.copy(
+                        isListLoading = false,
+                        events = resource.data
+                    ))
                 }
             }
         }.launchIn(viewModelScope)

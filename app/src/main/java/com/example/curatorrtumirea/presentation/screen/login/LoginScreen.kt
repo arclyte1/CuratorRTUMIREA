@@ -30,11 +30,14 @@ import com.example.curatorrtumirea.common.drawAnimatedBorder
 import com.example.curatorrtumirea.common.isImeVisibleAsState
 import com.example.curatorrtumirea.presentation.shared.textfield.BaseTextField
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
 fun LoginScreen(
     screenState: LoginScreenState,
-    onEvent: (LoginUiEvent) -> Unit,
+    effect: SharedFlow<LoginEffect>,
+    onEvent: (LoginEvent) -> Unit,
 ) {
     val animationColors = listOf(
         MaterialTheme.colorScheme.primary,
@@ -56,7 +59,7 @@ fun LoginScreen(
             }
             BaseTextField(
                 value = screenState.email,
-                onValueChange = { onEvent(LoginUiEvent.OnEmailChanged(it)) },
+                onValueChange = { onEvent(LoginEvent.OnEmailChanged(it)) },
                 label = stringResource(id = R.string.prompt_email),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,14 +68,14 @@ fun LoginScreen(
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 keyboardActions = KeyboardActions(onDone = {
-                    if (screenState.isSignInButtonEnabled) onEvent(LoginUiEvent.SignIn)
+                    if (screenState.isSignInButtonEnabled) onEvent(LoginEvent.SignIn)
                 })
             )
         }
         if (!(isImeVisible && LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE)) {
             Column(verticalArrangement = Arrangement.Bottom) {
                 Button(
-                    onClick = { onEvent(LoginUiEvent.SignIn) },
+                    onClick = { onEvent(LoginEvent.SignIn) },
                     enabled = screenState.isSignInButtonEnabled,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -103,6 +106,7 @@ fun LoginScreenPreview() {
         Surface {
             LoginScreen(
                 screenState = screenState,
+                effect = MutableSharedFlow(),
                 onEvent = {},
             )
         }

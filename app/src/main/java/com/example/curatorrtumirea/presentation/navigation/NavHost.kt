@@ -2,6 +2,8 @@ package com.example.curatorrtumirea.presentation.navigation
 
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
@@ -12,6 +14,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.curatorrtumirea.presentation.shared.BaseViewModel
+import kotlinx.coroutines.flow.SharedFlow
 import java.lang.IllegalArgumentException
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
@@ -47,11 +51,15 @@ fun NavGraphBuilder.composable(
     )
 }
 
-inline fun <reified VM : ViewModel> NavGraphBuilder.viewModelComposable(
+inline fun <reified VM : BaseViewModel<State, Effect, Event>, State, Effect, Event> NavGraphBuilder.viewModelComposable(
     destination: Destination,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    noinline content: @Composable AnimatedContentScope.(NavBackStackEntry, VM) -> Unit
+    noinline content: @Composable AnimatedContentScope.(
+        state: State,
+        effect: SharedFlow<Effect>,
+        onEvent: (Event) -> Unit
+    ) -> Unit
 ) {
     composable(
         route = destination.fullRoute,
@@ -59,6 +67,7 @@ inline fun <reified VM : ViewModel> NavGraphBuilder.viewModelComposable(
         deepLinks = deepLinks
     ) {
         val viewModel = hiltViewModel<VM>()
-        content(it, viewModel)
+        val state by viewModel.state.collectAsState()
+        content(state, viewModel.effect, viewModel::onEvent)
     }
 }

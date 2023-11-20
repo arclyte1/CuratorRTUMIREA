@@ -6,3 +6,13 @@ data class LoginScreenState(
     val isSignInButtonEnabled: Boolean = false,
     val isSigningIn: Boolean = false,
 )
+
+sealed class LoginEffect {
+
+}
+
+sealed class LoginEvent {
+
+    data class OnEmailChanged(val email: String) : LoginEvent()
+    data object SignIn : LoginEvent()
+}

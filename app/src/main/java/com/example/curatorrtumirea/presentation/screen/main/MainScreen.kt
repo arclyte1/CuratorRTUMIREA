@@ -16,11 +16,20 @@ import com.example.curatorrtumirea.presentation.navigation.Destination
 import com.example.curatorrtumirea.presentation.navigation.NavHost
 import com.example.curatorrtumirea.presentation.navigation.NavigationIntent
 import com.example.curatorrtumirea.presentation.navigation.viewModelComposable
+import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationEffect
+import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationEvent
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationScreen
+import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationScreenState
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationViewModel
+import com.example.curatorrtumirea.presentation.screen.event_list.EventListEffect
+import com.example.curatorrtumirea.presentation.screen.event_list.EventListEvent
 import com.example.curatorrtumirea.presentation.screen.event_list.EventListScreen
+import com.example.curatorrtumirea.presentation.screen.event_list.EventListScreenState
 import com.example.curatorrtumirea.presentation.screen.event_list.EventListViewModel
+import com.example.curatorrtumirea.presentation.screen.login.LoginEffect
+import com.example.curatorrtumirea.presentation.screen.login.LoginEvent
 import com.example.curatorrtumirea.presentation.screen.login.LoginScreen
+import com.example.curatorrtumirea.presentation.screen.login.LoginScreenState
 import com.example.curatorrtumirea.presentation.screen.login.LoginViewModel
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 import kotlinx.coroutines.channels.Channel
@@ -43,31 +52,31 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                 navController = navController,
                 startDestination = Destination.EventListScreen
             ) {
-                viewModelComposable<LoginViewModel>(
+                viewModelComposable<LoginViewModel, LoginScreenState, LoginEffect, LoginEvent>(
                     destination = Destination.LoginScreen
-                ) { _, viewModel ->
-                    val state by viewModel.screenState.collectAsState()
+                ) { state, effect, onEvent ->
                     LoginScreen(
                         screenState = state,
-                        onEvent = viewModel::onEvent
+                        effect = effect,
+                        onEvent = onEvent
                     )
                 }
-                viewModelComposable<EmailConfirmationViewModel>(
+                viewModelComposable<EmailConfirmationViewModel, EmailConfirmationScreenState, EmailConfirmationEffect, EmailConfirmationEvent>(
                     destination = Destination.EmailConfirmationScreen
-                ) { _, viewModel ->
-                    val state by viewModel.screenState.collectAsState()
+                ) { state, effect, onEvent ->
                     EmailConfirmationScreen(
                         screenState = state,
-                        onEvent = viewModel::onEvent
+                        effect = effect,
+                        onEvent = onEvent
                     )
                 }
-                viewModelComposable<EventListViewModel>(
+                viewModelComposable<EventListViewModel, EventListScreenState, EventListEffect, EventListEvent>(
                     destination = Destination.EventListScreen
-                ) { _, viewModel ->
-                    val state by viewModel.screenState.collectAsState()
+                ) { state, effect, onEvent ->
                     EventListScreen(
                         screenState = state,
-                        onEvent = viewModel::onEvent
+                        effect = effect,
+                        onEvent = onEvent
                     )
                 }
             }
