@@ -3,59 +3,23 @@ package com.example.curatorrtumirea.domain.usecase
 import com.example.curatorrtumirea.common.Resource
 import com.example.curatorrtumirea.domain.model.Event
 import com.example.curatorrtumirea.domain.model.EventType
+import com.example.curatorrtumirea.domain.repository.EventRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import java.util.Date
 import javax.inject.Inject
 
-class GetEventListUseCase @Inject constructor() {
+class GetEventListUseCase @Inject constructor(
+    private val eventRepository: EventRepository
+) {
 
-    operator fun invoke() = flow {
-        emit(Resource.Loading)
-        delay(3000)
-        emit(Resource.Success(listOf(
-            Event(
-                id = 1L,
-                title = "II Международная научно-практическая конференция цифровые международные отношения 2023",
-                type = EventType.OFFSITE,
-                date = Date()
-            ),
-            Event(
-                id = 2L,
-                title = "Круглый стол \"Перспективы развития цифровых технологий: опыт в России и за рубежом\"",
-                type = EventType.FACE_TO_FACE,
-            ),
-            Event(
-                id = 3L,
-                title = "Конференция Flutter meetup",
-                type = EventType.CAREER_GUIDANCE,
-            ),
-            Event(
-                id = 4L,
-                title = "Другое мероприятие",
-                type = EventType.OTHER,
-            ),
-            Event(
-                id = 1L,
-                title = "II Международная научно-практическая конференция цифровые международные отношения 2023",
-                type = EventType.OFFSITE,
-                date = Date()
-            ),
-            Event(
-                id = 2L,
-                title = "Круглый стол \"Перспективы развития цифровых технологий: опыт в России и за рубежом\"",
-                type = EventType.FACE_TO_FACE,
-            ),
-            Event(
-                id = 3L,
-                title = "Конференция Flutter meetup",
-                type = EventType.CAREER_GUIDANCE,
-            ),
-            Event(
-                id = 4L,
-                title = "Другое мероприятие",
-                type = EventType.OTHER,
-            )
-        )))
+    operator fun invoke(forceRefresh: Boolean) = flow {
+        try {
+            emit(Resource.Loading)
+            val events = eventRepository.getEventList(forceRefresh)
+            emit(Resource.Success(events))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "Unexpected error"))
+        }
     }
 }

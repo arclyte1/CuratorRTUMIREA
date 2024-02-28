@@ -1,4 +1,4 @@
-package com.example.curatorrtumirea.presentation.shared
+package com.example.curatorrtumirea.presentation.core
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

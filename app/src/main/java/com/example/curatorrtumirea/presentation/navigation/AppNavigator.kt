@@ -20,6 +20,7 @@ interface AppNavigator {
         popUpToRoute: String? = null,
         inclusive: Boolean = false,
         isSingleTop: Boolean = false,
+        clearBackStack: Boolean = false,
     )
 
     fun tryNavigateTo(
@@ -27,6 +28,7 @@ interface AppNavigator {
         popUpToRoute: String? = null,
         inclusive: Boolean = false,
         isSingleTop: Boolean = false,
+        clearBackStack: Boolean = false,
     )
 }
 
@@ -41,5 +43,6 @@ sealed class NavigationIntent {
         val popUpToRoute: String? = null,
         val inclusive: Boolean = false,
         val isSingleTop: Boolean = false,
+        val clearBackStack: Boolean = false,
     ) : NavigationIntent()
 }

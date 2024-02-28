@@ -32,7 +32,8 @@ class AppNavigatorImpl @Inject constructor() : AppNavigator {
         route: String,
         popUpToRoute: String?,
         inclusive: Boolean,
-        isSingleTop: Boolean
+        isSingleTop: Boolean,
+        clearBackStack: Boolean,
     ) {
         navigationChannel.send(
             NavigationIntent.NavigateTo(
@@ -40,6 +41,7 @@ class AppNavigatorImpl @Inject constructor() : AppNavigator {
                 popUpToRoute = popUpToRoute,
                 inclusive = inclusive,
                 isSingleTop = isSingleTop,
+                clearBackStack = clearBackStack,
             )
         )
     }
@@ -48,7 +50,8 @@ class AppNavigatorImpl @Inject constructor() : AppNavigator {
         route: String,
         popUpToRoute: String?,
         inclusive: Boolean,
-        isSingleTop: Boolean
+        isSingleTop: Boolean,
+        clearBackStack: Boolean,
     ) {
         navigationChannel.trySend(
             NavigationIntent.NavigateTo(
@@ -56,6 +59,7 @@ class AppNavigatorImpl @Inject constructor() : AppNavigator {
                 popUpToRoute = popUpToRoute,
                 inclusive = inclusive,
                 isSingleTop = isSingleTop,
+                clearBackStack = clearBackStack,
             )
         )
     }

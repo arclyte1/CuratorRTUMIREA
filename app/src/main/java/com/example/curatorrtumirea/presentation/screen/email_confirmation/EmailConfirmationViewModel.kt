@@ -7,7 +7,7 @@ import com.example.curatorrtumirea.domain.usecase.ConfirmEmailUseCase
 import com.example.curatorrtumirea.domain.usecase.SendEmailConfirmationCodeUseCase
 import com.example.curatorrtumirea.presentation.navigation.AppNavigator
 import com.example.curatorrtumirea.presentation.navigation.Destination
-import com.example.curatorrtumirea.presentation.shared.BaseViewModel
+import com.example.curatorrtumirea.presentation.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

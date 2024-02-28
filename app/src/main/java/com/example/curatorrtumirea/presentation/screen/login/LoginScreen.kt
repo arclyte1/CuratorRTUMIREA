@@ -28,7 +28,7 @@ import com.example.curatorrtumirea.R
 import com.example.curatorrtumirea.common.conditional
 import com.example.curatorrtumirea.common.drawAnimatedBorder
 import com.example.curatorrtumirea.common.isImeVisibleAsState
-import com.example.curatorrtumirea.presentation.shared.textfield.BaseTextField
+import com.example.curatorrtumirea.presentation.core.textfield.BaseTextField
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

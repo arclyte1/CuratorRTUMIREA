@@ -12,4 +12,12 @@
     <string name="offsite_event_type">Offsite event</string>
     <string name="career_guidance_event_type">Career guidance</string>
     <string name="event_list_empty">No events</string>
+    <string name="group_list">Groups</string>
+    <string name="event_details">Details</string>
+    <string name="cloud_url">Cloud url:</string>
+    <string name="set_up_attendances">Set up attendances</string>
+    <string name="attendances_title">Attendances %s</string>
+    <string name="group_details">Details</string>
+    <string name="student_list">Students (%d)</string>
+    <string name="view_events">View events</string>
 </resources>

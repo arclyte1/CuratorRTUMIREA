@@ -12,4 +12,12 @@
     <string name="offsite_event_type">Выездное мероприятие</string>
     <string name="career_guidance_event_type">Профориентационное</string>
     <string name="event_list_empty">Нет мероприятий</string>
+    <string name="group_list">Группы</string>
+    <string name="event_details">Подробности</string>
+    <string name="cloud_url">Ссылка на облако:</string>
+    <string name="set_up_attendances">Выставить посещения</string>
+    <string name="attendances_title">Посещения %s</string>
+    <string name="group_details">Подробности</string>
+    <string name="student_list">Студенты (%d)</string>
+    <string name="view_events">Посмотреть мероприятия</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.curatorrtumirea.presentation.shared.group_card
+package com.example.curatorrtumirea.presentation.core.group_card
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

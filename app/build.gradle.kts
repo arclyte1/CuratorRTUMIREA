@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.curatorrtumirea"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -70,6 +70,8 @@ dependencies {
 
     implementation(libs.hilt.navigation.compose)
     implementation(libs.navigation.compose)
+
+    implementation(libs.compose.icons.extended)
 
     implementation(libs.pull.refresh)
 }

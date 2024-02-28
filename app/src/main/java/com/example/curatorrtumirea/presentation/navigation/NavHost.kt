@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
@@ -14,11 +13,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.curatorrtumirea.presentation.shared.BaseViewModel
+import com.example.curatorrtumirea.presentation.core.BaseViewModel
 import kotlinx.coroutines.flow.SharedFlow
-import java.lang.IllegalArgumentException
-import kotlin.reflect.KFunction
-import kotlin.reflect.KParameter
 
 @Composable
 fun NavHost(

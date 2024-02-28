@@ -6,7 +6,7 @@ import com.example.curatorrtumirea.common.Resource
 import com.example.curatorrtumirea.domain.usecase.SendEmailConfirmationCodeUseCase
 import com.example.curatorrtumirea.presentation.navigation.AppNavigator
 import com.example.curatorrtumirea.presentation.navigation.Destination
-import com.example.curatorrtumirea.presentation.shared.BaseViewModel
+import com.example.curatorrtumirea.presentation.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -60,7 +60,11 @@ class LoginViewModel @Inject constructor(
                         isEmailReadOnly = false,
                         isSignInButtonEnabled = true
                     ))
-                    appNavigator.tryNavigateTo(Destination.EmailConfirmationScreen(email))
+                    if (resource.data) {
+                        appNavigator.tryNavigateTo(Destination.EmailConfirmationScreen(email))
+                    } else {
+                        // TODO: code haven`t been send
+                    }
                 }
             }
         }.launchIn(viewModelScope)

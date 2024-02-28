@@ -1,4 +1,4 @@
-package com.example.curatorrtumirea.presentation.shared.event_card
+package com.example.curatorrtumirea.presentation.core.event_card
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
