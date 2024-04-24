@@ -2,7 +2,9 @@ package com.example.curatorrtumirea.domain.repository
 
 interface AuthRepository {
 
-    suspend fun sendConfirmationCode(email: String): Boolean
+    suspend fun sendConfirmationCode(email: String)
 
     suspend fun confirmEmail(code: String): Boolean
+
+    suspend fun logout()
 }

@@ -1,5 +1,6 @@
 package com.example.curatorrtumirea.common
 
+import android.content.SharedPreferences
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -69,7 +70,7 @@ fun Modifier.drawAnimatedBorder(
         }
 }
 
-fun Modifier.conditional(condition : Boolean, modifier : Modifier.() -> Modifier) : Modifier {
+fun Modifier.conditional(condition: Boolean, modifier: Modifier.() -> Modifier): Modifier {
     return if (condition) {
         then(modifier(Modifier))
     } else {

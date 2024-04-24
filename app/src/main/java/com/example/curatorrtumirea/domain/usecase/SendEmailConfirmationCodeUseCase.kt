@@ -13,8 +13,8 @@ class SendEmailConfirmationCodeUseCase @Inject constructor(
     operator fun invoke(email: String) = flow {
         try {
             emit(Resource.Loading)
-            val result = authRepository.sendConfirmationCode(email)
-            emit(Resource.Success(result))
+            authRepository.sendConfirmationCode(email)
+            emit(Resource.Success(Unit))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error"))
         }

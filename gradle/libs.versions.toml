@@ -1,6 +1,9 @@
 [versions]
 agp = "8.1.2"
-org-jetbrains-kotlin-android = "1.9.10"
+jwtdecode = "2.0.2"
+kotlinx-serialization = "1.6.3"
+converter-kotlinx-serialization = "2.11.0"
+kotlin = "1.9.10"
 core-ktx = "1.12.0"
 lifecycle-runtime-ktx = "2.6.2"
 activity-compose = "1.8.0"
@@ -11,12 +14,19 @@ navigation-compose = "2.7.5"
 hilt-navigation-compose = "1.1.0"
 pull-refresh = "1.0.0"
 compose-icons-extended = "1.5.4"
+retrofit = "2.11.0"
+security-crypto = "1.1.0-alpha06"
 
 [libraries]
+converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "converter-kotlinx-serialization" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+jwtdecode = { module = "com.auth0.android:jwtdecode", version.ref = "jwtdecode" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+security-crypto = { module = "androidx.security:security-crypto", version.ref = "security-crypto" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -32,9 +42,10 @@ compose-icons-extended = { group = "androidx.compose.material", name = "material
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin-android" }
+org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [bundles]
 

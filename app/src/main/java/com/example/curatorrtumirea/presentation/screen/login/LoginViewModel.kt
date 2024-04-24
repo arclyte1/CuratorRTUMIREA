@@ -1,5 +1,6 @@
 package com.example.curatorrtumirea.presentation.screen.login
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import com.example.curatorrtumirea.common.Resource
@@ -45,7 +46,8 @@ class LoginViewModel @Inject constructor(
                         isEmailReadOnly = false,
                         isSignInButtonEnabled = true
                     ))
-                    TODO("make one time event handling")
+                    Log.e(this.javaClass.simpleName, resource.message)
+//                    TODO("make one time event handling")
                 }
                 Resource.Loading -> {
                     setState(state.value.copy(
@@ -60,11 +62,7 @@ class LoginViewModel @Inject constructor(
                         isEmailReadOnly = false,
                         isSignInButtonEnabled = true
                     ))
-                    if (resource.data) {
-                        appNavigator.tryNavigateTo(Destination.EmailConfirmationScreen(email))
-                    } else {
-                        // TODO: code haven`t been send
-                    }
+                    appNavigator.tryNavigateTo(Destination.EmailConfirmationScreen(email))
                 }
             }
         }.launchIn(viewModelScope)

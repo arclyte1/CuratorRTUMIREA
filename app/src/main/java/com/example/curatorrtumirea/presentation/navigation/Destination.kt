@@ -72,6 +72,8 @@ sealed class Destination(
             GROUP_ID to eventId
         )
     }
+
+    data object ProfileScreen : NoArgumentsDestination("profile")
 }
 
 internal fun String.appendParams(vararg params: Pair<String, Any?>): String {

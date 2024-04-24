@@ -20,4 +20,8 @@
     <string name="group_details">Details</string>
     <string name="student_list">Students (%d)</string>
     <string name="view_events">View events</string>
+    <string name="set_username">Set username</string>
+    <string name="requests">Requests</string>
+    <string name="logout">Logout</string>
+    <string name="session_expired">Session expired, you need to login again</string>
 </resources>

@@ -1,10 +1,18 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
+    alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization)
 }
+
+val localPropertiesFile = rootProject.file("local.properties")
+val localProperties = Properties()
+localProperties.load(FileInputStream(localPropertiesFile))
 
 android {
     namespace = "com.example.curatorrtumirea"
@@ -20,6 +28,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "BASE_URL", "\"${localProperties["baseUrl"]}\"")
     }
 
     buildTypes {
@@ -38,6 +47,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -74,4 +84,13 @@ dependencies {
     implementation(libs.compose.icons.extended)
 
     implementation(libs.pull.refresh)
+
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.kotlinx.serialization)
+
+    implementation(libs.security.crypto)
+
+    implementation(libs.jwtdecode)
 }

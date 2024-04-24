@@ -3,7 +3,9 @@ package com.example.curatorrtumirea.presentation.screen.main
 import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -56,6 +58,11 @@ import com.example.curatorrtumirea.presentation.screen.login.LoginEvent
 import com.example.curatorrtumirea.presentation.screen.login.LoginScreen
 import com.example.curatorrtumirea.presentation.screen.login.LoginScreenState
 import com.example.curatorrtumirea.presentation.screen.login.LoginViewModel
+import com.example.curatorrtumirea.presentation.screen.profile.ProfileEffect
+import com.example.curatorrtumirea.presentation.screen.profile.ProfileEvent
+import com.example.curatorrtumirea.presentation.screen.profile.ProfileScreen
+import com.example.curatorrtumirea.presentation.screen.profile.ProfileScreenState
+import com.example.curatorrtumirea.presentation.screen.profile.ProfileViewModel
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -70,13 +77,13 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
         navHostController = navController
     )
 
-    LaunchedEffect(Unit) {
-        mainViewModel.appNavigator.tryNavigateTo(
-            route = Destination.EventListScreen(false),
-            popUpToRoute = Destination.LoginScreen.fullRoute,
-            inclusive = true
-        )
-    }
+//    LaunchedEffect(Unit) {
+//        mainViewModel.appNavigator.tryNavigateTo(
+//            route = Destination.ProfileScreen(),
+//            popUpToRoute = Destination.LoginScreen.fullRoute,
+//            inclusive = true
+//        )
+//    }
 
     CuratorRTUMIREATheme {
         CompositionLocalProvider(
@@ -84,6 +91,16 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
             LocalBottomNavBarState provides bottomNavBarState
         ) {
             Scaffold(
+                topBar = {
+                    Button(onClick = {
+                        mainViewModel.appNavigator.tryNavigateTo(
+                            route = Destination.LoginScreen(),
+                            clearBackStack = true
+                        )
+                    }) {
+                        Text("Login")
+                    }
+                },
                 bottomBar = {
                     if (bottomNavBarState.isVisible) {
                         BottomNavBar(currentItem = bottomNavBarState.currentItem)
@@ -157,6 +174,15 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                             screenState = state,
                             effects = effect,
                             sendEvent = onEvent
+                        )
+                    }
+                    viewModelComposable<ProfileViewModel, ProfileScreenState, ProfileEffect, ProfileEvent>(
+                        destination = Destination.ProfileScreen
+                    ) { state, effect, onEvent ->
+                        ProfileScreen(
+                            state = state,
+                            sendEvent = onEvent,
+                            effects = effect
                         )
                     }
                 }

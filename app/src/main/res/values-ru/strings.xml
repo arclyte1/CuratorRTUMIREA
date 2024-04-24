@@ -20,4 +20,8 @@
     <string name="group_details">Подробности</string>
     <string name="student_list">Студенты (%d)</string>
     <string name="view_events">Посмотреть мероприятия</string>
+    <string name="set_username">Добавить имя</string>
+    <string name="requests">Запросы</string>
+    <string name="logout">Выйти</string>
+    <string name="session_expired">Сессия истекла, необходимо войти снова</string>
 </resources>
