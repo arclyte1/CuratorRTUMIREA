@@ -5,6 +5,7 @@ data class LoginScreenState(
     val isEmailReadOnly: Boolean = false,
     val isSignInButtonEnabled: Boolean = false,
     val isSigningIn: Boolean = false,
+    val isLoading: Boolean = false,
 )
 
 sealed class LoginEffect {

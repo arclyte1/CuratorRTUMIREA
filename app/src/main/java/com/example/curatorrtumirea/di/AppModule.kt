@@ -8,6 +8,7 @@ import com.example.curatorrtumirea.common.Constants
 import com.example.curatorrtumirea.data.remote.api.AuthApi
 import com.example.curatorrtumirea.data.remote.interceptor.AuthInterceptor
 import com.example.curatorrtumirea.data.local.SessionManager
+import com.example.curatorrtumirea.data.remote.api.MainApi
 import com.example.curatorrtumirea.data.repository.AttendanceRepositoryImpl
 import com.example.curatorrtumirea.data.repository.AuthRepositoryImpl
 import com.example.curatorrtumirea.data.repository.EventRepositoryImpl
@@ -79,8 +80,10 @@ object AppModule {
         val json = Json { ignoreUnknownKeys = true }
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
+            .build()
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
+            .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory(MediaType.get("application/json")))
             .build()
     }
@@ -95,8 +98,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideEventRepository(): EventRepository {
-        return EventRepositoryImpl()
+    fun provideMainApi(
+        @MainRetrofit retrofit: Retrofit
+    ): MainApi {
+        return retrofit.create(MainApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventRepository(
+        api: MainApi
+    ): EventRepository {
+        return EventRepositoryImpl(api)
     }
 
     @Provides
@@ -111,8 +124,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGroupRepository(): GroupRepository {
-        return GroupRepositoryImpl()
+    fun provideGroupRepository(
+        api: MainApi
+    ): GroupRepository {
+        return GroupRepositoryImpl(api)
     }
 
     @Provides

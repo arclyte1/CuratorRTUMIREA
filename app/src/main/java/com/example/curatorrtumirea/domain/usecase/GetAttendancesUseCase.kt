@@ -1,12 +1,8 @@
 package com.example.curatorrtumirea.domain.usecase
 
 import com.example.curatorrtumirea.common.Resource
-import com.example.curatorrtumirea.domain.model.Attendance
-import com.example.curatorrtumirea.domain.model.AttendanceGroup
 import com.example.curatorrtumirea.domain.repository.AttendanceRepository
 import com.example.curatorrtumirea.domain.repository.EventRepository
-import com.example.curatorrtumirea.domain.repository.GroupRepository
-import com.example.curatorrtumirea.domain.repository.StudentRepository
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 

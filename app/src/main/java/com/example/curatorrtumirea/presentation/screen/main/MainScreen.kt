@@ -91,16 +91,6 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
             LocalBottomNavBarState provides bottomNavBarState
         ) {
             Scaffold(
-                topBar = {
-                    Button(onClick = {
-                        mainViewModel.appNavigator.tryNavigateTo(
-                            route = Destination.LoginScreen(),
-                            clearBackStack = true
-                        )
-                    }) {
-                        Text("Login")
-                    }
-                },
                 bottomBar = {
                     if (bottomNavBarState.isVisible) {
                         BottomNavBar(currentItem = bottomNavBarState.currentItem)

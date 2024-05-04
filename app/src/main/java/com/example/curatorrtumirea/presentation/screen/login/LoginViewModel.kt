@@ -4,6 +4,7 @@ import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import com.example.curatorrtumirea.common.Resource
+import com.example.curatorrtumirea.domain.usecase.IsSessionValidUseCase
 import com.example.curatorrtumirea.domain.usecase.SendEmailConfirmationCodeUseCase
 import com.example.curatorrtumirea.presentation.navigation.AppNavigator
 import com.example.curatorrtumirea.presentation.navigation.Destination
@@ -17,8 +18,37 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val appNavigator: AppNavigator,
-    private val sendEmailConfirmationCodeUseCase: SendEmailConfirmationCodeUseCase
+    private val sendEmailConfirmationCodeUseCase: SendEmailConfirmationCodeUseCase,
+    private val isSessionValidUseCase: IsSessionValidUseCase
 ) : BaseViewModel<LoginScreenState, LoginEffect, LoginEvent>(LoginScreenState()) {
+
+    init {
+        isSessionValidUseCase().onEach { resource ->
+            when(resource) {
+                is Resource.Error -> {
+                    setState(state.value.copy(
+                        isLoading = false
+                    ))
+                }
+                Resource.Loading -> {
+                    setState(state.value.copy(
+                        isLoading = true
+                    ))
+                }
+                is Resource.Success -> {
+                    setState(state.value.copy(
+                        isLoading = false
+                    ))
+                    if (resource.data) {
+                        appNavigator.tryNavigateTo(
+                            Destination.EventListScreen(),
+                            clearBackStack = true
+                        )
+                    }
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 
     override fun onEvent(event: LoginEvent) {
         viewModelScope.launch {

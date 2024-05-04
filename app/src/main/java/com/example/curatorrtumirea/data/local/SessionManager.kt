@@ -73,6 +73,10 @@ class SessionManager @Inject constructor(
         refreshToken = null
     }
 
+    fun isRefreshTokenExpired(): Boolean {
+        return refreshToken?.isExpired(10) != false
+    }
+
     sealed class GetTokenResult {
         data class Success(val token: String) : GetTokenResult()
         data object RefreshExpired : GetTokenResult()

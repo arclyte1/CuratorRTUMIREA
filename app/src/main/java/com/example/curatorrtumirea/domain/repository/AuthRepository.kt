@@ -7,4 +7,8 @@ interface AuthRepository {
     suspend fun confirmEmail(code: String): Boolean
 
     suspend fun logout()
+
+    suspend fun isSessionValid(): Boolean
+
+    suspend fun getUserEmail(): String?
 }

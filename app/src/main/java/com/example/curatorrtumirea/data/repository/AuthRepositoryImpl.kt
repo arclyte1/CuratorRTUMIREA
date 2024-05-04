@@ -38,4 +38,12 @@ class AuthRepositoryImpl(
         sessionManager.clearTokens()
         // TODO: api call
     }
+
+    override suspend fun isSessionValid(): Boolean {
+        return !sessionManager.isRefreshTokenExpired()
+    }
+
+    override suspend fun getUserEmail(): String? {
+        return sharedPrefs.getString(Constants.SharedPrefs.EMAIL, null)
+    }
 }

@@ -4,7 +4,6 @@ data class ProfileScreenState(
     val email: String? = null,
     val username: String? = null,
     val isLoading: Boolean = false,
-    val requestsCount: Int? = null,
 )
 
 sealed class ProfileEvent {

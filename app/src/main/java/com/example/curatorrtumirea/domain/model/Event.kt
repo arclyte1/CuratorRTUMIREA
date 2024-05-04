@@ -12,9 +12,8 @@ data class Event(
     val endTime: LocalTime? = null,
     val location: String? = null,
     val cloudUrl: String? = null,
-    val studentsCount: Int? = null,
-    val studentsPresent: Int? = null,
-    val groupIds: List<Long> = emptyList()
+    val groupIds: List<Long> = emptyList(),
+    val presentStudents: List<Long> = emptyList()
 )
 
 enum class EventType {

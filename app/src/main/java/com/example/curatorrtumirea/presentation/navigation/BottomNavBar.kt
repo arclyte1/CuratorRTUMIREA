@@ -52,7 +52,8 @@ sealed class BottomNavItem(
     data object Groups :
         BottomNavItem(icon = Icons.Default.Groups, route = Destination.GroupListScreen(false))
 
-    data object Profile : BottomNavItem(icon = Icons.Default.Person)
+    data object Profile :
+        BottomNavItem(icon = Icons.Default.Person, route = Destination.ProfileScreen())
 }
 
 @Composable

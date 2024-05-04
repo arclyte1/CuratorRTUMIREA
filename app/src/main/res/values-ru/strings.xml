@@ -24,4 +24,5 @@
     <string name="requests">Запросы</string>
     <string name="logout">Выйти</string>
     <string name="session_expired">Сессия истекла, необходимо войти снова</string>
+    <string name="profile">Профиль</string>
 </resources>

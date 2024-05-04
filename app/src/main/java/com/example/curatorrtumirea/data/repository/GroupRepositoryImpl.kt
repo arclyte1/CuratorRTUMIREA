@@ -1,55 +1,23 @@
 package com.example.curatorrtumirea.data.repository
 
 import android.util.Log
+import com.example.curatorrtumirea.data.remote.api.MainApi
+import com.example.curatorrtumirea.data.remote.dto.GroupDto
 import com.example.curatorrtumirea.domain.model.Group
 import com.example.curatorrtumirea.domain.repository.GroupRepository
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
-class GroupRepositoryImpl : GroupRepository {
+class GroupRepositoryImpl @Inject constructor(
+    private val api: MainApi
+) : GroupRepository {
 
     private var groups: List<Group>? = null
 
-    private suspend fun getRemoteGroups(ids: List<Long> = emptyList()): List<Group> {
-        Log.d(this.javaClass.simpleName, "getRemoteGroups")
-        delay(1000)
-        return listOf(
-            Group(
-                id = 6L,
-                title = "ИКБО-06-20"
-            ),
-            Group(
-                id = 7L,
-                title = "ИКБО-07-20"
-            ),
-            Group(
-                id = 8L,
-                title = "ИКБО-08-20"
-            ),
-            Group(
-                id = 9L,
-                title = "ИКБО-09-20"
-            ),
-            Group(
-                id = 10L,
-                title = "ИКБО-10-20"
-            ),
-            Group(
-                id = 11L,
-                title = "ИКБО-11-20"
-            ),
-            Group(
-                id = 12L,
-                title = "ИКБО-12-20"
-            ),
-            Group(
-                id = 13L,
-                title = "ИКБО-13-20"
-            ),
-            Group(
-                id = 14L,
-                title = "ИКБО-14-20"
-            ),
-        )
+    private suspend fun getRemoteGroups(): List<Group> {
+        val response = api.getGroupList()
+        Log.d(this.javaClass.simpleName, response.joinToString())
+        return response.map(GroupDto::toGroup)
     }
 
     override suspend fun getGroupList(forceRefresh: Boolean): List<Group> {
@@ -61,7 +29,7 @@ class GroupRepositoryImpl : GroupRepository {
 
     override suspend fun getGroupListByIds(forceRefresh: Boolean, ids: List<Long>): List<Group> {
         if (forceRefresh || groups == null || !groups!!.map { it.id }.containsAll(ids)) {
-            groups = getRemoteGroups(ids)
+            groups = getRemoteGroups()
         }
         return groups?.filter { it.id in ids } ?: emptyList()
     }
