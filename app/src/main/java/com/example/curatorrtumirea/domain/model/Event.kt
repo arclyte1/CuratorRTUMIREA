@@ -1,5 +1,6 @@
 package com.example.curatorrtumirea.domain.model
 
+import kotlinx.serialization.Serializable
 import java.time.LocalDate
 import java.time.LocalTime
 

@@ -1,6 +1,5 @@
 package com.example.curatorrtumirea.data.remote.dto
 
-import com.example.curatorrtumirea.data.serializer.EventTypeSerializer
 import com.example.curatorrtumirea.domain.model.Event
 import com.example.curatorrtumirea.domain.model.EventType
 import kotlinx.serialization.SerialName
@@ -12,8 +11,7 @@ import java.time.LocalTime
 data class EventDto(
     val id: Long,
     val title: String,
-    @Serializable(EventTypeSerializer::class)
-    val type: EventType = EventType.OTHER,
+    val type: String,
     val date: String? = null,
     @SerialName("start_time")
     val startTime: String? = null,
@@ -31,7 +29,7 @@ data class EventDto(
         return Event(
             id = this.id,
             title = this.title,
-            type = this.type,
+            type = EventType.valueOf(this.type),
             date = this.date?.let { LocalDate.parse(it) },
             startTime = this.startTime?.let { LocalTime.parse(it) },
             endTime = this.endTime?.let { LocalTime.parse(it) },

@@ -3,9 +3,7 @@ package com.example.curatorrtumirea.presentation.screen.main
 import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +26,16 @@ import com.example.curatorrtumirea.presentation.screen.attendances.AttendancesEv
 import com.example.curatorrtumirea.presentation.screen.attendances.AttendancesScreen
 import com.example.curatorrtumirea.presentation.screen.attendances.AttendancesScreenState
 import com.example.curatorrtumirea.presentation.screen.attendances.AttendancesViewModel
+import com.example.curatorrtumirea.presentation.screen.create_event.CreateEventEffect
+import com.example.curatorrtumirea.presentation.screen.create_event.CreateEventEvent
+import com.example.curatorrtumirea.presentation.screen.create_event.CreateEventScreen
+import com.example.curatorrtumirea.presentation.screen.create_event.CreateEventScreenState
+import com.example.curatorrtumirea.presentation.screen.create_event.CreateEventViewModel
+import com.example.curatorrtumirea.presentation.screen.create_request.CreateRequestEffect
+import com.example.curatorrtumirea.presentation.screen.create_request.CreateRequestEvent
+import com.example.curatorrtumirea.presentation.screen.create_request.CreateRequestScreen
+import com.example.curatorrtumirea.presentation.screen.create_request.CreateRequestScreenState
+import com.example.curatorrtumirea.presentation.screen.create_request.CreateRequestViewModel
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationEffect
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationEvent
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.EmailConfirmationScreen
@@ -63,6 +71,11 @@ import com.example.curatorrtumirea.presentation.screen.profile.ProfileEvent
 import com.example.curatorrtumirea.presentation.screen.profile.ProfileScreen
 import com.example.curatorrtumirea.presentation.screen.profile.ProfileScreenState
 import com.example.curatorrtumirea.presentation.screen.profile.ProfileViewModel
+import com.example.curatorrtumirea.presentation.screen.request_list.RequestListScreenState
+import com.example.curatorrtumirea.presentation.screen.request_list.RequestListViewModel
+import com.example.curatorrtumirea.presentation.screen.request_list.RequestListEffect
+import com.example.curatorrtumirea.presentation.screen.request_list.RequestListEvent
+import com.example.curatorrtumirea.presentation.screen.request_list.RequestListScreen
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -173,6 +186,33 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                             state = state,
                             sendEvent = onEvent,
                             effects = effect
+                        )
+                    }
+                    viewModelComposable<RequestListViewModel, RequestListScreenState, RequestListEffect, RequestListEvent>(
+                        destination = Destination.RequestListScreen
+                    ) { state, effect, onEvent ->
+                        RequestListScreen(
+                            state = state,
+                            sendEvent = onEvent,
+                            effects = effect
+                        )
+                    }
+                    viewModelComposable<CreateEventViewModel, CreateEventScreenState, CreateEventEffect, CreateEventEvent>(
+                        destination = Destination.CreateEventScreen
+                    ) { state, effect, onEvent ->
+                        CreateEventScreen(
+                            screenState = state,
+                            sendEvent = onEvent,
+                            effect = effect
+                        )
+                    }
+                    viewModelComposable<CreateRequestViewModel, CreateRequestScreenState, CreateRequestEffect, CreateRequestEvent>(
+                        destination = Destination.CreateRequestScreen
+                    ) { state, effect, onEvent ->
+                        CreateRequestScreen(
+                            screenState = state,
+                            sendEvent = onEvent,
+                            effect = effect
                         )
                     }
                 }

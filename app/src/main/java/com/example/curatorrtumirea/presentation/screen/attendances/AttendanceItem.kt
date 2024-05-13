@@ -27,11 +27,11 @@ fun AttendanceItem(
             text = attendance.student.name,
             modifier = Modifier.weight(1f)
         )
-        if (attendance.isLoading) {
-            Text(
-                text = "L"
-            )
-        }
+//        if (attendance.isLoading) {
+//            Text(
+//                text = "L"
+//            )
+//        }
         Checkbox(checked = attendance.isPresent, onCheckedChange = {
             if (!attendance.isLoading) {
                 onAttendanceChanged(it)

@@ -17,11 +17,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,7 +35,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.curatorrtumirea.R
+import com.example.curatorrtumirea.common.LocalBottomNavBarState
 import com.example.curatorrtumirea.presentation.core.expandable_column.DefaultExpandableColumn
+import com.example.curatorrtumirea.presentation.navigation.BottomNavItem
 import com.example.curatorrtumirea.presentation.screen.event_details.EventDetailsEvent
 import kotlinx.coroutines.flow.SharedFlow
 
@@ -47,18 +51,25 @@ fun GroupDetailsScreen(
     val scrollState = rememberScrollState()
     var isStudentListExpanded by remember { mutableStateOf(false) }
 
+    val bottomNavBarState = LocalBottomNavBarState.current
+    LaunchedEffect(Unit) {
+        bottomNavBarState.setupBottomBar(isVisible = true, currentItem = BottomNavItem.Groups)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(stringResource(id = R.string.group_details)) })
+            Divider(modifier = Modifier.fillMaxWidth())
         }
     ) { paddingValues ->
         Box(
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues)
                     .verticalScroll(scrollState)
             ) {
                 screenState.title?.let {
@@ -71,7 +82,10 @@ fun GroupDetailsScreen(
                 DefaultExpandableColumn(
                     isExpanded = isStudentListExpanded,
                     onExpandedChanged = { isStudentListExpanded = it },
-                    headerTitle = stringResource(id = R.string.student_list, screenState.students?.size ?: 0),
+                    headerTitle = stringResource(
+                        id = R.string.student_list,
+                        screenState.students?.size ?: 0
+                    ),
                     data = screenState.students?.map { it.name } ?: emptyList(),
                     modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
                 )

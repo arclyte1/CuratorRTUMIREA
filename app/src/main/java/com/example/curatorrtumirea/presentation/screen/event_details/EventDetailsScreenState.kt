@@ -48,7 +48,7 @@ sealed class EventDetailsEffect {
 
 sealed class EventDetailsEvent {
     data object OnEditClicked : EventDetailsEvent()
-    data object OnDeleteClicked : EventDetailsEvent()
+    data object DeleteEvent : EventDetailsEvent()
     data object OnCloudUrlClicked : EventDetailsEvent()
     data object OnCopyCloudUrlClicked : EventDetailsEvent()
     data object OnSetUpAttendancesClicked : EventDetailsEvent()

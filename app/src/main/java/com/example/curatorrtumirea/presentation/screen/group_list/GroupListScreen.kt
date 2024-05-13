@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -76,7 +77,7 @@ fun GroupListScreen(
         ) {
             if (!screenState.isListLoading && screenState.groups.isEmpty()) {
                 Text(
-                    text = stringResource(id = R.string.event_list_empty),
+                    text = stringResource(id = R.string.group_list_empty),
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp,
                     modifier = Modifier
@@ -87,7 +88,7 @@ fun GroupListScreen(
             }
             LazyColumn(
                 contentPadding = PaddingValues(bottom = 64.dp),
-                modifier = Modifier.pullRefresh(pullRefreshState)
+                modifier = Modifier.fillMaxSize().pullRefresh(pullRefreshState)
             ) {
                 items(screenState.groups) { group ->
                     GroupCard(

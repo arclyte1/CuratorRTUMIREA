@@ -20,9 +20,12 @@ class AttendancesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getAttendancesUseCase: GetAttendancesUseCase,
     private val setAttendanceUseCase: SetAttendanceUseCase
-) : BaseViewModel<AttendancesScreenState, AttendancesEffect, AttendancesEvent>(AttendancesScreenState()) {
+) : BaseViewModel<AttendancesScreenState, AttendancesEffect, AttendancesEvent>(
+    AttendancesScreenState()
+) {
 
-    private val eventId = checkNotNull(savedStateHandle.get<String>(Destination.EventDetailsScreen.EVENT_ID)).toLong()
+    private val eventId =
+        checkNotNull(savedStateHandle.get<String>(Destination.EventDetailsScreen.EVENT_ID)).toLong()
     private val attendanceChangeCooldownStudentIds = mutableSetOf<Long>()
 
     init {
@@ -41,6 +44,7 @@ class AttendancesViewModel @Inject constructor(
                     )
                 )
             }
+
             Resource.Loading -> {
                 setState(
                     state.value.copy(
@@ -48,6 +52,7 @@ class AttendancesViewModel @Inject constructor(
                     )
                 )
             }
+
             is Resource.Success -> {
                 setState(
                     state.value.copy(
@@ -79,7 +84,6 @@ class AttendancesViewModel @Inject constructor(
 
                     setAttendanceUseCase(
                         eventId = eventId,
-                        groupId = event.groupId,
                         studentId = event.studentId,
                         isPresent = event.isPresent
                     ).onEach(::updateWithAttendancesResource).launchIn(viewModelScope)

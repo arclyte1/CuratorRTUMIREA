@@ -30,7 +30,10 @@ class GroupListViewModel @Inject constructor(
             is GroupListEvent.OnGroupClicked -> {
                 appNavigator.tryNavigateTo(Destination.GroupDetailsScreen(event.id))
             }
-            GroupListEvent.RefreshList -> TODO()
+            GroupListEvent.RefreshList -> {
+                if (!state.value.isListLoading)
+                    getGroupList(true)
+            }
         }
     }
 

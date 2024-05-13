@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -29,8 +30,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,7 +47,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.curatorrtumirea.R
+import com.example.curatorrtumirea.common.LocalBottomNavBarState
 import com.example.curatorrtumirea.presentation.core.expandable_column.DefaultExpandableColumn
+import com.example.curatorrtumirea.presentation.navigation.BottomNavItem
 import kotlinx.coroutines.flow.SharedFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,8 +59,14 @@ fun EventDetailsScreen(
     sendEvent: (EventDetailsEvent) -> Unit,
     effects: SharedFlow<EventDetailsEffect>
 ) {
+    var isDeleteConfirmationDialogVisible by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     var isGroupListExpanded by remember { mutableStateOf(false) }
+
+    val bottomNavBarState = LocalBottomNavBarState.current
+    LaunchedEffect(Unit) {
+        bottomNavBarState.setupBottomBar(isVisible = true, currentItem = BottomNavItem.Events)
+    }
 
     Scaffold(
         topBar = {
@@ -63,13 +74,15 @@ fun EventDetailsScreen(
                 TopAppBar(
                     title = { Text(stringResource(id = R.string.event_details)) },
                     actions = {
-                        IconButton(onClick = { sendEvent(EventDetailsEvent.OnEditClicked) }) {
+                        IconButton(onClick = {
+                            sendEvent(EventDetailsEvent.OnEditClicked)
+                        }) {
                             Icon(
                                 imageVector = Icons.Default.Edit,
                                 contentDescription = "edit"
                             )
                         }
-                        IconButton(onClick = { sendEvent(EventDetailsEvent.OnDeleteClicked) }) {
+                        IconButton(onClick = { isDeleteConfirmationDialogVisible = true }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "delete"
@@ -172,5 +185,26 @@ fun EventDetailsScreen(
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }
+    }
+    if (isDeleteConfirmationDialogVisible) {
+        AlertDialog(
+            title = {
+                Text(text = stringResource(id = R.string.confirm_event_deletion))
+            },
+            onDismissRequest = { isDeleteConfirmationDialogVisible = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    isDeleteConfirmationDialogVisible = false
+                    sendEvent(EventDetailsEvent.DeleteEvent)
+                }) {
+                    Text(stringResource(id = R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { isDeleteConfirmationDialogVisible = false }) {
+                    Text(stringResource(id = R.string.dismiss))
+                }
+            }
+        )
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.curatorrtumirea.R
+import com.example.curatorrtumirea.common.LocalBottomNavBarState
 import com.example.curatorrtumirea.common.isImeVisibleAsState
 import com.example.curatorrtumirea.presentation.screen.email_confirmation.components.ConfirmationCodeTextField
 import com.example.curatorrtumirea.presentation.ui.theme.CuratorRTUMIREATheme
@@ -51,6 +53,11 @@ fun EmailConfirmationScreen(
         Dialog(onDismissRequest = { }) {
             CircularProgressIndicator()
         }
+    }
+
+    val bottomNavBarState = LocalBottomNavBarState.current
+    LaunchedEffect(Unit) {
+        bottomNavBarState.setupBottomBar(isVisible = false)
     }
 
     Scaffold(

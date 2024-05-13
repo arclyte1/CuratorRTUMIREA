@@ -15,6 +15,7 @@ sealed class EventListEffect {
 
 sealed class EventListEvent {
     data class OnEventClicked(val eventId: Long) : EventListEvent()
-    data object RefreshList : EventListEvent()
+    data class RefreshList(val forceRefresh: Boolean = true) : EventListEvent()
     data object RemoveGroupFilter : EventListEvent()
+    data object OnCreateEventClicked : EventListEvent()
 }

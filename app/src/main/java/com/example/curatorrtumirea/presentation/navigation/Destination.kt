@@ -1,7 +1,5 @@
 package com.example.curatorrtumirea.presentation.navigation
 
-import android.util.Log
-
 sealed class Destination(
     protected val route: String,
     vararg params: String
@@ -74,6 +72,12 @@ sealed class Destination(
     }
 
     data object ProfileScreen : NoArgumentsDestination("profile")
+
+    data object RequestListScreen : NoArgumentsDestination("request_list")
+
+    data object CreateEventScreen : NoArgumentsDestination("create_event")
+
+    data object CreateRequestScreen : NoArgumentsDestination("create_request")
 }
 
 internal fun String.appendParams(vararg params: Pair<String, Any?>): String {

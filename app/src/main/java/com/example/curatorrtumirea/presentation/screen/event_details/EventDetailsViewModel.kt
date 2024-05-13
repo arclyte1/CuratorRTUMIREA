@@ -3,6 +3,7 @@ package com.example.curatorrtumirea.presentation.screen.event_details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.curatorrtumirea.common.Resource
+import com.example.curatorrtumirea.domain.usecase.DeleteEventUseCase
 import com.example.curatorrtumirea.domain.usecase.GetEventDetailsUseCase
 import com.example.curatorrtumirea.domain.usecase.GetGroupListUseCase
 import com.example.curatorrtumirea.presentation.navigation.Destination
@@ -19,6 +20,7 @@ class EventDetailsViewModel @Inject constructor(
     private val appNavigator: AppNavigator,
     private val getEventDetailsUseCase: GetEventDetailsUseCase,
     private val getGroupListUseCase: GetGroupListUseCase,
+    private val deleteEventUseCase: DeleteEventUseCase,
 ) : BaseViewModel<EventDetailsScreenState, EventDetailsEffect, EventDetailsEvent>(EventDetailsScreenState()) {
 
     private val eventId = checkNotNull(savedStateHandle.get<String>(Destination.EventDetailsScreen.EVENT_ID)).toLong()
@@ -71,11 +73,31 @@ class EventDetailsViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun deleteEvent() {
+        deleteEventUseCase(eventId).onEach { resource ->
+            when(resource) {
+                is Resource.Error -> {
+                    // TODO: show error
+                    setState(state.value.copy(isLoading = false))
+                }
+                Resource.Loading -> {
+                    setState(state.value.copy(isLoading = true))
+                }
+                is Resource.Success -> {
+                    setState(state.value.copy(isLoading = false))
+                    appNavigator.navigateBack()
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
     override fun onEvent(event: EventDetailsEvent) {
         when(event) {
             EventDetailsEvent.OnCloudUrlClicked -> TODO()
             EventDetailsEvent.OnCopyCloudUrlClicked -> TODO()
-            EventDetailsEvent.OnDeleteClicked -> TODO()
+            EventDetailsEvent.DeleteEvent -> {
+                deleteEvent()
+            }
             EventDetailsEvent.OnEditClicked -> TODO()
             EventDetailsEvent.OnSetUpAttendancesClicked -> {
                 appNavigator.tryNavigateTo(Destination.AttendancesScreen(eventId))

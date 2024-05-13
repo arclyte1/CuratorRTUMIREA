@@ -44,7 +44,7 @@ fun ProfileScreen(
     sendEvent: (ProfileEvent) -> Unit,
     effects: SharedFlow<ProfileEffect>
 ) {
-//    var editUsernameDialogShown by remember { mutableStateOf(false) }
+    var editUsernameDialogShown by remember { mutableStateOf(false) }
     val bottomNavBarState = LocalBottomNavBarState.current
 
     LaunchedEffect(Unit) {
@@ -77,31 +77,31 @@ fun ProfileScreen(
                 )
             }
             // TODO: username
-//            if (state.username.isNullOrBlank()) {
-//                TextButton(
-//                    onClick = { editUsernameDialogShown = true },
-//                    modifier = Modifier
-//                        .align(CenterHorizontally)
-//                        .padding(top = 16.dp)
-//                ) {
-//                    Text(stringResource(id = R.string.set_username), fontSize = 20.sp)
-//                }
-//            } else {
-//                Row(
-//                    verticalAlignment = CenterVertically,
-//                    modifier = Modifier
-//                        .align(CenterHorizontally)
-//                        .padding(top = 8.dp)
-//                ) {
-//                    Text(state.username, fontSize = 20.sp, modifier = Modifier.alpha(0.6f))
-//                    IconButton(
-//                        onClick = { editUsernameDialogShown = true },
-//                        modifier = Modifier.padding(start = 4.dp)
-//                    ) {
-//                        Icon(imageVector = Icons.Filled.Edit, contentDescription = "edit")
-//                    }
-//                }
-//            }
+            if (state.username.isNullOrBlank()) {
+                TextButton(
+                    onClick = { editUsernameDialogShown = true },
+                    modifier = Modifier
+                        .align(CenterHorizontally)
+                        .padding(top = 16.dp)
+                ) {
+                    Text(stringResource(id = R.string.set_username), fontSize = 20.sp)
+                }
+            } else {
+                Row(
+                    verticalAlignment = CenterVertically,
+                    modifier = Modifier
+                        .align(CenterHorizontally)
+                        .padding(top = 8.dp)
+                ) {
+                    Text(state.username, fontSize = 20.sp, modifier = Modifier.alpha(0.6f))
+                    IconButton(
+                        onClick = { editUsernameDialogShown = true },
+                        modifier = Modifier.padding(start = 4.dp)
+                    ) {
+                        Icon(imageVector = Icons.Filled.Edit, contentDescription = "edit")
+                    }
+                }
+            }
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()

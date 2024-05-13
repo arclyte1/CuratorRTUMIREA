@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -18,9 +19,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -62,7 +66,7 @@ fun EventListScreen(
     val bottomNavBarState = LocalBottomNavBarState.current
     val pullRefreshState = rememberPullRefreshState(
         refreshing = screenState.isListLoading,
-        onRefresh = { sendEvent(EventListEvent.RefreshList) }
+        onRefresh = { sendEvent(EventListEvent.RefreshList()) }
     )
 
     LaunchedEffect(Unit) {
@@ -70,6 +74,7 @@ fun EventListScreen(
             currentItem = BottomNavItem.Events,
             isVisible = true
         )
+        sendEvent(EventListEvent.RefreshList(false))
     }
 
     Scaffold(
@@ -127,8 +132,10 @@ fun EventListScreen(
                     }
                 }
                 LazyColumn(
-                    contentPadding = PaddingValues(bottom = 64.dp),
-                    modifier = Modifier.pullRefresh(pullRefreshState)
+                    contentPadding = PaddingValues(bottom = 96.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .pullRefresh(pullRefreshState)
                 ) {
                     items(screenState.events) { event ->
                         EventCard(
@@ -142,6 +149,14 @@ fun EventListScreen(
                         )
                     }
                 }
+            }
+            FloatingActionButton(
+                onClick = { sendEvent(EventListEvent.OnCreateEventClicked) },
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "create")
             }
             PullRefreshIndicator(
                 refreshing = screenState.isListLoading || screenState.isGroupLoading,

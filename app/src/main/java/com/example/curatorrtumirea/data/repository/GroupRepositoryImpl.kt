@@ -15,7 +15,11 @@ class GroupRepositoryImpl @Inject constructor(
     private var groups: List<Group>? = null
 
     private suspend fun getRemoteGroups(): List<Group> {
-        val response = api.getGroupList()
+        val response = api.getGroupList().map { group ->
+            group.copy(
+                students = group.students.sortedBy { it.name }
+            )
+        }.sortedBy { it.title }
         Log.d(this.javaClass.simpleName, response.joinToString())
         return response.map(GroupDto::toGroup)
     }

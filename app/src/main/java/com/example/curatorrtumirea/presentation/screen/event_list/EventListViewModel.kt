@@ -1,5 +1,6 @@
 package com.example.curatorrtumirea.presentation.screen.event_list
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.curatorrtumirea.common.Resource
@@ -69,9 +70,9 @@ class EventListViewModel @Inject constructor(
                     appNavigator.tryNavigateTo(Destination.EventDetailsScreen(event.eventId))
                 }
 
-                EventListEvent.RefreshList -> {
+                is EventListEvent.RefreshList -> {
                     if (!state.value.isListLoading)
-                        getEventList(true)
+                        getEventList(event.forceRefresh)
                 }
 
                 EventListEvent.RemoveGroupFilter -> {
@@ -80,6 +81,10 @@ class EventListViewModel @Inject constructor(
                         groupFilterTitle = null
                     ))
                     updateWithEventsData()
+                }
+
+                EventListEvent.OnCreateEventClicked -> {
+                    appNavigator.tryNavigateTo(Destination.CreateEventScreen())
                 }
             }
         }
@@ -113,6 +118,7 @@ class EventListViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
+                    Log.d(this.javaClass.simpleName, resource.data.toString())
                     eventsData = resource.data
                     updateWithEventsData()
                     setState(

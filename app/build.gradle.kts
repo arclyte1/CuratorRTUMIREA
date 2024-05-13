@@ -93,4 +93,6 @@ dependencies {
     implementation(libs.security.crypto)
 
     implementation(libs.jwtdecode)
+
+    testImplementation(libs.junit)
 }

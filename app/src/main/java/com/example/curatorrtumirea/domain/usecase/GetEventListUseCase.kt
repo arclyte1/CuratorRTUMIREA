@@ -19,6 +19,7 @@ class GetEventListUseCase @Inject constructor(
             val events = eventRepository.getEventList(forceRefresh)
             emit(Resource.Success(events))
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error"))
         }
     }

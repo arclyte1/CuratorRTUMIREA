@@ -1,5 +1,6 @@
 [versions]
 agp = "8.1.2"
+junit = "4.13.2"
 jwtdecode = "2.0.2"
 kotlinx-serialization = "1.6.3"
 converter-kotlinx-serialization = "2.11.0"
@@ -20,6 +21,7 @@ security-crypto = "1.1.0-alpha06"
 [libraries]
 converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "converter-kotlinx-serialization" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+junit = { module = "junit:junit", version.ref = "junit" }
 jwtdecode = { module = "com.auth0.android:jwtdecode", version.ref = "jwtdecode" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }

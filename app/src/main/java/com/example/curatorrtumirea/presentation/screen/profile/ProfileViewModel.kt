@@ -28,7 +28,9 @@ class ProfileViewModel @Inject constructor(
             ProfileEvent.OnLogoutClicked -> {
                 logout()
             }
-            ProfileEvent.OnRequestsClicked -> TODO()
+            ProfileEvent.OnRequestsClicked -> {
+                appNavigator.tryNavigateTo(Destination.RequestListScreen())
+            }
             is ProfileEvent.OnUsernameChanged -> TODO()
         }
     }
